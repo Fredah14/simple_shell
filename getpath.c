@@ -9,10 +9,12 @@ char *_get_path(char **env)
 {
 size_t content = 0, variable = 0, count = 5;
 char *path = NULL;
-for (content = 0; _strncmp(env[content], "PATH=", 5); content++);
+for (content = 0; _strncmp(env[content], "PATH=", 5); content++)
+;
 if (env[content] == NULL)
 return (NULL);
-for (count = 5; env[content][variable; variable++, count++);
+for (count = 5; env[content][variable; variable++, count++)
+;
 path = malloc(sizeof(char) * (count + 1));
 if (path == NULL)
 return (NULL);
