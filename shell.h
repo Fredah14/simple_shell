@@ -13,8 +13,23 @@
 #include <errno.h>
 #include <signal.h>
 
+char *arg;
+char **argv;
+char *path;
+int argc;
+unsigned int line_count;
+int err_num;
+int linecount_flag;
+char *fname;
+list_t *env;
+list_t *history;
+list_t *alias;
+char **environ;
+int env_changed;
+int status;
 char *type;
-int (*func)(info_t *);
+int *func;
+int info_t *;
 char **tokenize(char *buffer);
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
