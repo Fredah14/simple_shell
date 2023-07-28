@@ -12,7 +12,7 @@ int _exit(info_t *info)
 if (info->argv[1])
 ;
 {
-		exitcheck = _erratoi(info->argv[1]);
+		exitcheck = _erroratoi(info->argv[1]);
 		if (exitcheck == -1)
 		{
 			info->status = 2;
@@ -21,7 +21,7 @@ if (info->argv[1])
 			_eputchar('\n');
 			return (1);
 		}
-		info->err_num = _erratoi(info->argv[1]);
+		info->err_num = _erroratoi(info->argv[1]);
 		return (-2);
 	}
 	info->err_num = -1;
@@ -30,7 +30,7 @@ if (info->argv[1])
 
 /**
  * _mycd - changes current directory of process
- * @info: potential arguments to maintain constant func prototy
+ * @info: potential arguments to maintain constant func prototype
  *
  *  Return: Always 0
  */
@@ -61,7 +61,7 @@ int _mycd(info_t *info)
 		}
 		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
 		newdir_ret = /* TODO: which input to insert? */
-			newdir((directory = _getenv(info, "OLDPWD=")) ? directoy : "/");
+			newdir((directory = _getenv(info, "OLDPWD=")) ? directory : "/");
 	}
 	else
 		newdir_ret = newdir(info->argv[1]);

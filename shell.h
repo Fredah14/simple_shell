@@ -108,6 +108,7 @@ typedef struct builtin
 	int (*func)(info_t *);
 } builtin_table;
 
+void _exit (int __status) __attribute__ ((__noreturn__));
 ssize_t input_buf(info_t *info, char **buf, size_t *len);
 int _env(info_t *info);
 char **tokenize(char *buffer);
