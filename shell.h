@@ -108,6 +108,7 @@ typedef struct builtin
 	int (*func)(info_t *);
 } builtin_table;
 
+int _env(info_t *info);
 char **tokenize(char *buffer);
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
