@@ -1,4 +1,6 @@
 #include "shell.h"
+#include <unistd.h>
+#include <stdio.h>
 
 /**
  * input_buf - buffers the chained commands

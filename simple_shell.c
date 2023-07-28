@@ -2,14 +2,14 @@
 
 /**
  * main - prints out the sum and product of numbers
- * @argc : counts number of arguments
- * @argv : array containing numbers
+ * @argc: counts number of arguments
+ * @argv: array containing numbers
  *
  * Return: Always 0
  */
 int main(int argc, char *argv[])
 {
-	int i, sum = 0, product = 1;
+	int j, sum = 0, product = 1;
 	char operation;
 
 	printf("Do you want to perform '+' or '*' operation ?\n");
@@ -17,10 +17,10 @@ int main(int argc, char *argv[])
 
 	if (argc > 1)
 	{
-		for (i = 1; i < argc; i++)
+		for (j = 1; j < argc; j++)
 		{
-			sum += atoi(argv[i]);
-			product *= atoi(argv[i]);
+			sum += atoi(argv[j]);
+			product *= atoi(argv[j]);
 		}
 
 		if (operation == '+')

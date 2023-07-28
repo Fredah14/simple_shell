@@ -36,7 +36,7 @@ int _erroratoi(char *s)
  */
 void print_error(info_t *info, char *errstr)
 {
-	_eputs(info->fname);
+	_eputs(info->filename);
 	_eputs(": ");
 	print_d(info->line_count, STDERR_FILENO);
 	_eputs(": ");
@@ -47,12 +47,12 @@ void print_error(info_t *info, char *errstr)
 
 /**
  * print_d - prints a decimal number
- * @input: the input to be printed
+ * @inp: the input to be printed
  * @fd: filedescriptor to write to
  *
  * Return: number of characters
  */
-int print_d(int input, int fd)
+int print_d(int inp, int fd)
 {
 	int (*__putchar)(char) = _putchar;
 	int j, count = 0;
@@ -60,14 +60,14 @@ int print_d(int input, int fd)
 
 	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
-	if (input < 0)
+	if (inp < 0)
 	{
-		_abs_ = -input;
+		_abs_ = -inp;
 		__putchar('-');
 		count++;
 	}
 	else
-		_abs_ = input;
+		_abs_ = inp;
 	curr = _abs_;
 	for (j = 1000000000; j > 1; j /= 10)
 	{
@@ -122,18 +122,18 @@ char *convert_number(long int num, int base, int flags)
 
 /**
  * rem_comments - replaces first instance of '#' with '\0'
- * @buffs: address of string to modify
+ * @buf: address of string to modify
  *
  * Return: Always 0
  */
-void rem_comments(char *buffs)
+void rem_comments(char *buf)
 {
 	int j;
 
-	for (j = 0; buffs[j] != '\0'; j++)
-		if (buffs[j] == '#' && (!j || buffs[j - 1] == ' '))
+	for (j = 0; buf[j] != '\0'; j++)
+		if (buf[j] == '#' && (!j || buf[j - 1] == ' '))
 		{
-			buffs[j] = '\0';
+			buf[j] = '\0';
 			break;
 		}
 }

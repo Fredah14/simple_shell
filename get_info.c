@@ -40,7 +40,7 @@ void sets_info(info_t *info, char **av)
 		info->argc = j;
 
 		replace_alias(info);
-		replace_vars(info);
+		replace_variables(info);
 	}
 }
 

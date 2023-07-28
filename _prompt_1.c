@@ -81,14 +81,14 @@ int print_alias(list_t *nodes)
 }
 
 /**
- * _alias - mimics the alias _prompt
+ * _alias - mimics the alias builtin
  * @info: potential arguments used to maintain constant func prototype.
  *
  *  Return: Always 0
  */
 int _alias(info_t *info)
 {
-	int i = 0;
+	int j = 0;
 	char *k = NULL;
 	list_t *nodes = NULL;
 
@@ -102,13 +102,13 @@ int _alias(info_t *info)
 		}
 		return (0);
 	}
-	for (i = 1; info->argv[i]; i++)
+	for (j = 1; info->argv[j]; j++)
 	{
-		k = _strchr(info->argv[i], '=');
+		k = _strchr(info->argv[j], '=');
 		if (k)
-			set_alias(info, info->argv[i]);
+			set_alias(info, info->argv[j]);
 		else
-			print_alias(nodes_starts_with(info->alias, info->argv[i], '='));
+			print_alias(nodes_starts_with(info->alias, info->argv[j], '='));
 	}
 
 	return (0);

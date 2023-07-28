@@ -22,13 +22,13 @@ int _env(info_t *info)
 char *_getenv(info_t *info, const char *name)
 {
 	list_t *nodes = info->env;
-	char *p;
+	char *k;
 
 	while (nodes)
 	{
-		p = starts_with(nodes->str, name);
-		if (p && *p)
-			return (p);
+		k = starts_with(nodes->str, name);
+		if (k && *k)
+			return (k);
 		nodes = nodes->next;
 	}
 	return (NULL);
@@ -61,32 +61,32 @@ int _mysetenv(info_t *info)
  */
 int _myunsetenv(info_t *info)
 {
-	int i;
+	int j;
 
 	if (info->argc == 1)
 	{
-		_eputs("Too few arguements.\n");
+		_eputs("Not enough arguements.\n");
 		return (1);
 	}
-	for (i = 1; i <= info->argc; i++)
-		_unsetenv(info, info->argv[i]);
+	for (j = 1; j <= info->argc; j++)
+		_unsetenv(info, info->argv[j]);
 
 	return (0);
 }
 
 /**
  * populate_env_list - populates env linked list
- * @info: contains potential arguments to main constant fun prototype.
+ * @info: contains potential arguments to maintain constant funct prototype.
  *
  * Return: Always 0
  */
 int populate_env_list(info_t *info)
 {
 	list_t *nodes = NULL;
-	size_t i;
+	size_t j;
 
-	for (i = 0; environ[i]; i++)
-		add_nodes_end(&nodes, environ[i], 0);
+	for (j = 0; envi[j]; j++)
+		add_nodes_end(&nodes, envi[j], 0);
 	info->env = nodes;
 	return (0);
 }
