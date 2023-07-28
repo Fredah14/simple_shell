@@ -2,17 +2,16 @@
 
 /**
  * _exit - exits the shell
- * @info: potential arguments
+ * @info: potential arguments to maintain constant func prototy
  *
- * Return: exits with a given exit status
- *         (0) if info.argv[0] != "exit"
+ * Return: Always 0, if not exit
  */
 int _exit(info_t *info)
 {
 	int exitcheck;
-
-	if (info->argv[1])  
-	{
+if (info->argv[1])
+;
+{
 		exitcheck = _erratoi(info->argv[1]);
 		if (exitcheck == -1)
 		{
@@ -31,7 +30,7 @@ int _exit(info_t *info)
 
 /**
  * _mycd - changes current directory of process
- * @info: potential arguments
+ * @info: potential arguments to maintain constant func prototy
  *
  *  Return: Always 0
  */
@@ -81,7 +80,7 @@ int _mycd(info_t *info)
 
 /**
  * _myhelp - changes current directory of process
- * @info potential arguments
+ * @info: potential arguments to maintain constant func prototy
  *
  *  Return: Always 0
  */
@@ -92,6 +91,6 @@ int _myhelp(info_t *info)
 	arg_array = info->argv;
 	_puts("Help alert. Function not available \n");
 	if (0)
-		_puts(*arg_array); 
+		_puts(*arg_array);
 	return (0);
 }
