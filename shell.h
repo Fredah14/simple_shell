@@ -13,6 +13,8 @@
 #include <errno.h>
 #include <signal.h>
 
+char *type;
+int (*func)(info_t *);
 char **tokenize(char *buffer);
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
