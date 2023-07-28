@@ -58,9 +58,9 @@ typedef struct liststr
  *@line_count: the error count
  *@err_num: the error code for exit()s
  *@linecount_flag: if on count this line of input
- *@fname: the program filename
+ *@filename: the program filename
  *@env: linked list local copy of environ
- *@environ: custom modified copy of environ from LL env
+ *@envi: custom modified copy of environ from LL env
  *@history: the history node
  *@alias: the alias node
  *@env_changed: on if environ was changed
@@ -79,16 +79,16 @@ typedef struct passinfo
 	unsigned int line_count;
 	int err_num;
 	int linecount_flag;
-	char *fname;
+	char *filename;
 	list_t *env;
 	list_t *history;
 	list_t *alias;
-	char **environ;
+	char **envi;
 	int env_changed;
 	int status;
 
-	char **cmd_buf; /* pointer to cmd ; chain buffer, for memory mangement */
-	int cmd_buf_type; /* CMD_type ||, &&, ; */
+	char **cmd_buf;
+	int cmd_buf_type;
 	int readfd;
 	int histcount;
 } info_t;
@@ -108,6 +108,7 @@ typedef struct builtin
 	int (*func)(info_t *);
 } builtin_table;
 
+ssize_t input_buf(info_t *info, char **buf, size_t *len);
 int _env(info_t *info);
 char **tokenize(char *buffer);
 int hsh(info_t *, char **);
