@@ -1,16 +1,15 @@
 #include "shell.h"
 
 /**
- * _exit - exits the shell
+ * _myexit - exits the shell
  * @info: potential arguments to maintain constant func prototy
  *
  * Return: Always 0, if not exit
  */
-int _exit(info_t *info)
+int _myexit(info_t *info)
 {
 	int exitcheck;
 if (info->argv[1])
-;
 {
 		exitcheck = _erroratoi(info->argv[1]);
 		if (exitcheck == -1)
@@ -37,7 +36,7 @@ if (info->argv[1])
 int _mycd(info_t *info)
 {
 	char *s, *directory, buffer[1024];
-	int newdir_ret;
+	int chdir_ret;
 
 	s = getcwd(buffer, 1024);
 	if (!s)
@@ -46,10 +45,10 @@ int _mycd(info_t *info)
 	{
 		directory = _getenv(info, "HOME=");
 		if (!directory)
-			newdir_ret = /* TODO: which input to insert? */
-				newdir((directory = _getenv(info, "PWD=")) ? directory : "/");
+			chdir_ret = /* TODO: which input to insert? */
+chdir((directory = _getenv(info, "PWD=")) ? directory : "/");
 		else
-			newdir_ret = newdir(directory);
+			chdir_ret = chdir(directory);
 	}
 	else if (_strcmp(info->argv[1], "-") == 0)
 	{
@@ -60,12 +59,12 @@ int _mycd(info_t *info)
 			return (1);
 		}
 		_puts(_getenv(info, "OLDPWD=")), _putchar('\n');
-		newdir_ret = /* TODO: which input to insert? */
-			newdir((directory = _getenv(info, "OLDPWD=")) ? directory : "/");
+		chdir_ret = /* TODO: which input to insert? */
+			chdir((directory = _getenv(info, "OLDPWD=")) ? directory : "/");
 	}
 	else
-		newdir_ret = newdir(info->argv[1]);
-	if (newdir_ret == -1)
+		chdir_ret = chdir(info->argv[1]);
+	if (chdir_ret == -1)
 	{
 		print_error(info, "can't change directory to ");
 		_eputs(info->argv[1]), _eputchar('\n');
