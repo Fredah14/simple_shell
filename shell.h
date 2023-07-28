@@ -110,7 +110,7 @@ typedef struct builtin
 
 void _exit (int __status) __attribute__ ((__noreturn__));
 ssize_t input_buf(info_t *info, char **buf, size_t *len);
-int _env(info_t *info);
+int _envi(info_t *info);
 char **tokenize(char *buffer);
 int hsh(info_t *, char **);
 int find_builtin(info_t *);
@@ -120,7 +120,7 @@ int is_cmd(info_t *, char *);
 char *dup_chars(char *, int, int);
 char *find_path(info_t *, char *, char *);
 int loophsh(char **);
-void _errputs(char *);
+void _errorputs(char *);
 int _eputchar(char);
 int _putfd(char c, int fd);
 int _putsfd(char *str, int fd);
