@@ -4,13 +4,14 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#define PROMPT "#cisfun$ "
+#define PROMPT ":) "
 #define MAX_ARGS 10
 
 int main(void)
 {
-    char input[100];
-    char *args[MAX_ARGS + 1];
+  char input[100];
+  char *args[MAX_ARGS + 1];
+    char *path = "/bin:/usr/bin";
     pid_t child_pid;
     int status;
 
@@ -19,8 +20,8 @@ int main(void)
         fflush(stdout);
 
         if (fgets(input, sizeof(input), stdin) == NULL) {
-            printf("\n");
-            break;
+	  printf("\n");
+	  break;
         }
 
         input[strlen(input) - 1] = '\0';
@@ -35,16 +36,30 @@ int main(void)
         if (arg_count == 0) {
             continue;
         }
+        int found = 0;
+        char full_path[100];
+        char *path_token = strtok(path, ":");
+        while (path_token != NULL) {
+            snprintf(full_path, sizeof(full_path), "%s/%s", path_token, args[0]);
+            if (access(full_path, X_OK) == 0) {
+                found = 1;
+                break;
+            }
+            path_token = strtok(NULL, ":");
+        }
 
+        if (!found) {
+            printf("%s: command not found\n", args[0]);
+            continue;
+        }
         child_pid = fork();
 
         if (child_pid == -1) {
             perror("fork");
             exit(EXIT_FAILURE);
         } else if (child_pid == 0) {
-            execvp(args[0], args);
-
-            perror("execvp");
+            execv(full_path, args);
+	    perror("execv");
             exit(EXIT_FAILURE);
         } else {
 	  waitpid(child_pid, &status, 0);

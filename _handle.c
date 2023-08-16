@@ -22,7 +22,6 @@ int main(void)
             printf("\n");
             break;
         }
-
         input[strlen(input) - 1] = '\0';
         int arg_count = 0;
         char *token = strtok(input, " ");
@@ -35,7 +34,6 @@ int main(void)
         if (arg_count == 0) {
             continue;
         }
-
         child_pid = fork();
 
         if (child_pid == -1) {
@@ -43,8 +41,7 @@ int main(void)
             exit(EXIT_FAILURE);
         } else if (child_pid == 0) {
             execvp(args[0], args);
-
-            perror("execvp");
+	    perror("execvp");
             exit(EXIT_FAILURE);
         } else {
 	  waitpid(child_pid, &status, 0);
