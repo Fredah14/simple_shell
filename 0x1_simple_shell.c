@@ -1,75 +1,66 @@
+#include <stdio.h>
 #include <stdlib.h>
-#include "shell.h"
+#include <unistd.h>
+#include <string.h>
 
-/**
- * interactive - returns true if shell is in interactive mode
- * @info: struct address
- *
- * Return: 1 if interactive mode, otherwise 0
- */
-int interactive(info_t *info)
+#define BUFSIZE 1024
+
+void display_prompt(void)
 {
-	return (isatty(STDIN_FILENO) && info->readfd <= 2);
+    printf("($) ");
 }
 
-/**
- * is_delim - checks if character is a delimeter
- * @c: the character address
- * @delim: delimeter str
- * Return: 1 if true, 0 if false
- */
-int is_delim(char c, char *delim)
+char *read_command(void)
 {
-	while (*delim)
-		if (*delim++ == c)
-			return (1);
-	return (0);
+    char *line = NULL;
+    size_t bufsize = 0;
+
+    if (getline(&line, &bufsize, stdin) == -1) {
+        if (feof(stdin)) {
+            printf("\n");
+            exit(EXIT_SUCCESS);
+        } else {
+            perror("getline");
+            exit(EXIT_FAILURE);
+        }
+    }
+    return line;
 }
 
-/**
- *_isalpha - checks for the alphabetic character
- *@c: character to input
- *Return: 1 if c is alphabetic, otherwise 0
- */
-
-int _isalpha(int c)
+int execute_command(char *command)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	else
-		return (0);
+    pid_t pid;
+    int status;
+
+    command[strcspn(command, "\n")] = '\0'; // Remove newline
+    pid = fork();
+
+    if (pid == 0) {
+        // Child process
+        if (execlp(command, command, NULL) == -1) {
+            perror("execlp");
+            exit(EXIT_FAILURE);
+        }
+    } else if (pid < 0) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    } else {
+        // Parent process
+        waitpid(pid, &status, 0);
+    }
+    return 1;
 }
 
-/**
- *_atoi - convert a string to an integer
- *@s: the string to convert
- *Return: 0 if no numbers in string, cotherwise converted number
- */
-
-int _atoi(char *s)
+int main(void)
 {
-	int j, signs = 1, flags = 0, output;
-	unsigned int results = 0;
+    char *command;
+    int status = 1;
 
-	for (j = 0;  s[j] != '\0' && flags != 2; j++)
-	{
-		if (s[j] == '-')
-			signs *= -1;
-
-		if (s[j] >= '0' && s[j] <= '9')
-		{
-			flags = 1;
-			results *= 10;
-			results += (s[j] - '0');
-		}
-		else if (flags == 1)
-			flags = 2;
-	}
-
-	if (signs == -1)
-		output = -results;
-	else
-		output = results;
-
-	return (output);
+    while (status) {
+        display_prompt();
+        command = read_command();
+        status = execute_command(command);
+        free(command);
+    }
+    return 0;
 }
