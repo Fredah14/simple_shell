@@ -1,46 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-#define PROMPT "#cisfun$ "
+#define MAX_INPUT_SIZE 1024
+#define PROMPT ":) "
 
 int main(void)
 {
-    char command[100];
-    char *args[2];
-    pid_t child_pid;
-    int status;
+    char *input = NULL;
+    size_t input_size = 0;
 
     while (1) {
         printf(PROMPT);
         fflush(stdout);
 
-        if (fgets(command, sizeof(command), stdin) == NULL) {
+        ssize_t bytes_read = getline(&input, &input_size, stdin);
 
-            printf("\n");
-            break;
+        if (bytes_read == -1) {
+            if (feof(stdin)) {
+                printf("\n");
+                free(input);
+                break;
+
+		}
+	    perror("getline");
+            free(input);
+            exit(EXIT_FAILURE);
         }
 
-        command[strlen(command) - 1] = '\0';
+        input[bytes_read - 1] = '\0';
 
-        child_pid = fork();
+	pid_t pid = fork();
 
-        if (child_pid == -1) {
+        if (pid == -1) {
             perror("fork");
+            free(input);
             exit(EXIT_FAILURE);
-        } else if (child_pid == 0) {
-
-            args[0] = command;
-            args[1] = NULL;
-
-            execve(command, args, NULL);
-
-            perror("execve");
+        } else if (pid == 0) {
+          char *args[] = {input, NULL};
+            execve(input, args, NULL);
+            perror(input);
+            free(input);
             exit(EXIT_FAILURE);
         } else {
-            waitpid(child_pid, &status, 0);
+	  waitpid(pid, NULL, 0);
         }
     }
 
